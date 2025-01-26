@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,21 +14,21 @@ public class SpawnerCoins : MonoBehaviour
 
     private void OnEnable()
     {
-        _player.CoinMatched += PlaceCoinInPool;
+        for (int i = 0; i < _maxCountCoin; i++)
+        {
+            Coin coin = Instantiate(_prefab);
+            coin.CoinMatched += PlaceCoinInPool;
+            coin.gameObject.SetActive(false);
+
+            _coinsPool.Add(coin);
+        }
     }
 
     private void OnDisable()
     {
-        _player.CoinMatched -= PlaceCoinInPool;
-    }
-
-    private void Start()
-    {
-        for (int i = 0; i < _maxCountCoin; i++) 
+        for (int i = 0; i < _coinsPool.Count; i++)
         {
-            Coin coin = Instantiate(_prefab);
-            _coinsPool.Add(coin);
-            coin.gameObject.SetActive(false);
+            _coinsPool[i].CoinMatched -= PlaceCoinInPool;
         }
     }
 

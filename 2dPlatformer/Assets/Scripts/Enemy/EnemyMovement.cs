@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
@@ -17,10 +15,7 @@ public class EnemyMovement : MonoBehaviour
         }
         else
         {
-            if (_currentTargetPoint < _patroolPoints.Length - 1)
-                _currentTargetPoint++;
-            else
-                _currentTargetPoint = 0;
+            _currentTargetPoint = ++_currentTargetPoint % _patroolPoints.Length;
         }
     }
 }
