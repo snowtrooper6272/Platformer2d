@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
@@ -22,6 +21,7 @@ public class Player : MonoBehaviour
         if (_health <= 0) 
         {
             gameObject.SetActive(false);
+            
         }
     }
 }

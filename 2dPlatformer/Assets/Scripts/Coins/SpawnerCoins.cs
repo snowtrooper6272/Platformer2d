@@ -7,7 +7,7 @@ public class SpawnerCoins : MonoBehaviour
     [SerializeField] private Coin _prefab;
     [SerializeField] private Player _player;
     [SerializeField] private float _intervalOfSpawn;
-    [SerializeField] private GameObject[] _spawnAreas;    
+    [SerializeField] private Transform[] _spawnAreas;    
 
     private List<Coin> _coinsPool = new List<Coin>();
     private float _currentTimeSpawn;

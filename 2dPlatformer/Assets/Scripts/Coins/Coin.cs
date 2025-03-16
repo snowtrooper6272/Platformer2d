@@ -1,10 +1,10 @@
+using System;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class Coin : MonoBehaviour
 {
-    public event UnityAction<Coin> CoinMatched;
     [SerializeField] private int _price;
+    public event Action<Coin> CoinMatched;
 
     public int Price => _price;
 

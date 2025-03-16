@@ -1,37 +1,30 @@
+using System;
 using UnityEngine;
 
+[RequireComponent(typeof(GroundChecker), typeof(AnimationConroller))]
 public class Movement : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _jumpForce;
     [SerializeField] private Rigidbody2D _rigidbody;
-    [SerializeField] private SpriteRenderer _reflector;
-    [SerializeField] private Animator _animator;
+    [SerializeField] private InputReader _moveReader;
+    [SerializeField] private AnimationConroller _animationConroller;
 
+    public float MoveSpeed => _moveSpeed;
+
+    private GroundChecker _groundChecker;
     private bool _isOnGround = true;
-    private string _moveAxis = "Horizontal";
     private int _speed = Animator.StringToHash(nameof(_speed));
 
-    private void Update()
+    private void OnEnable()
     {
-        transform.Translate(Input.GetAxis(_moveAxis) * _speed * Time.deltaTime,0, 0);
+        _moveReader.PlayerJumped += Jump;
+        _groundChecker = GetComponent<GroundChecker>();
+    }
 
-        if (Input.GetAxis(_moveAxis) != 0)
-        {
-            _reflector.flipX = Input.GetAxis(_moveAxis) < 0;
-        }
-        else 
-        {
-            _animator.Play("idle");
-        }
-
-        _animator.SetFloat(_speed, Mathf.Abs(Input.GetAxis(_moveAxis)));
-
-        if (Input.GetKeyDown(KeyCode.Space) && _isOnGround)
-        {
-            _rigidbody.AddForce(Vector2.up * _jumpForce);
-            _isOnGround = false;
-        }
+    private void OnDisable()
+    {
+        _moveReader.PlayerJumped -= Jump;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -39,6 +32,23 @@ public class Movement : MonoBehaviour
         if (collision.gameObject.TryGetComponent(out Ground ground)) 
         {
             _isOnGround = true;
+        }
+    }
+
+    private void Update()
+    {
+        transform.Translate(_moveReader.AxisDirection * Time.deltaTime * _moveSpeed, 0, 0);
+
+        _animationConroller.PlayRun(_moveReader.AxisDirection);
+    }
+
+    private void Jump() 
+    {
+        if (_groundChecker.IsPossibleJump) 
+        {
+            _rigidbody.AddForce(Vector2.up * _jumpForce);
+            _isOnGround = false;
+            _animationConroller.PlayJump();
         }
     }
 }
