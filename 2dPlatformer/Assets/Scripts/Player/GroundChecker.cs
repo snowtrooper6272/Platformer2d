@@ -8,6 +8,7 @@ public class GroundChecker : MonoBehaviour
 
     public bool IsPossibleJump { get; private set; }
 
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.TryGetComponent(out Ground ground))
@@ -15,5 +16,10 @@ public class GroundChecker : MonoBehaviour
             IsPossibleJump = true;
             _animationConroller.JumpAvalible();
         }
+    }
+
+    public void TakeOff() 
+    {
+        IsPossibleJump = false;
     }
 }

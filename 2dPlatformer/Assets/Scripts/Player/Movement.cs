@@ -49,6 +49,7 @@ public class Movement : MonoBehaviour
             _rigidbody.AddForce(Vector2.up * _jumpForce);
             _isOnGround = false;
             _animationConroller.PlayJump();
+            _groundChecker.TakeOff();
         }
     }
 }
