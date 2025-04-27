@@ -1,25 +1,40 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GroundChecker : MonoBehaviour
 {
-    [SerializeField] private AnimationConroller _animationConroller;
+    [SerializeField] private PlayerAnimator _animator;
 
-    public bool IsPossibleJump { get; private set; }
+    public event Action Grounded;
+    public bool IsPossibleJump { get; private set; } = true;
 
-
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.TryGetComponent(out Ground ground))
+        IsPossibleJump = false;
+
+        foreach (ContactPoint2D contactPoint in collision.contacts)
         {
-            IsPossibleJump = true;
-            _animationConroller.JumpAvalible();
+            if (contactPoint.collider.gameObject.TryGetComponent(out Ground ground))
+            {
+                IsPossibleJump = true;
+                Grounded.Invoke();
+            }
         }
     }
 
-    public void TakeOff() 
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         IsPossibleJump = false;
+
+        foreach (ContactPoint2D contactPoint in collision.contacts)
+        {
+            if (contactPoint.collider.gameObject.TryGetComponent(out Ground ground))
+            {
+                IsPossibleJump = true;
+                Grounded.Invoke();
+            }
+        }
     }
 }

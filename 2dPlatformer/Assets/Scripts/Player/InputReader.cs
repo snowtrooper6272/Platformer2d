@@ -5,24 +5,22 @@ using UnityEngine;
 
 public class InputReader : MonoBehaviour
 {
-    public event Action<float> PlayerMoved;
-    public event Action PlayerJumped;
-    public event Action<float> PlayerInactived;
-
     private string _moveAxis = "Horizontal";
     private KeyCode _jumpButton = KeyCode.Space;
 
     public float AxisDirection { get; private set; }
 
+    public event Action<float> PlayerMoved;
+    public event Action PlayerJumped;
+    public event Action<float> PlayerInactived;
+
     private void Update()
     {
-        AxisDirection = Input.GetAxis(_moveAxis);
+        AxisDirection = Input.GetAxis(_moveAxis); //  -1 0 1
 
         if (Input.GetKeyDown(_jumpButton))
         {
             PlayerJumped.Invoke();
         }
-
-        Debug.Log(AxisDirection);
     }
 }
