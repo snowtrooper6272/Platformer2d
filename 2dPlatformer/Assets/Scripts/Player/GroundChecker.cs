@@ -8,33 +8,38 @@ public class GroundChecker : MonoBehaviour
     [SerializeField] private PlayerAnimator _animator;
 
     public event Action Grounded;
-    public bool IsPossibleJump { get; private set; } = true;
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        IsPossibleJump = false;
+        int countGroundContacts = 0;
 
         foreach (ContactPoint2D contactPoint in collision.contacts)
         {
             if (contactPoint.collider.gameObject.TryGetComponent(out Ground ground))
             {
-                IsPossibleJump = true;
                 Grounded.Invoke();
+                break;
             }
         }
+
+        if (countGroundContacts > 0)
+            Grounded.Invoke();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        IsPossibleJump = false;
+        int countGroundContacts = 0;
 
         foreach (ContactPoint2D contactPoint in collision.contacts)
         {
             if (contactPoint.collider.gameObject.TryGetComponent(out Ground ground))
             {
-                IsPossibleJump = true;
                 Grounded.Invoke();
+                break;
             }
         }
+
+        if (countGroundContacts > 0)
+            Grounded.Invoke();
     }
 }

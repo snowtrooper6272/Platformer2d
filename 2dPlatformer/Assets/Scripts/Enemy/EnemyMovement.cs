@@ -11,7 +11,7 @@ public class EnemyMovement : MonoBehaviour
     private void Start()
     {
         _mover = GetComponent<EnemyMover>();
-        _mover.GetNewTarget(_patroolPoints[_currentTargetPoint].position);
+        _mover.SetNewTarget(_patroolPoints[_currentTargetPoint].position);
     }
 
     private void Update()
@@ -19,7 +19,7 @@ public class EnemyMovement : MonoBehaviour
         if (transform.position.x == _patroolPoints[_currentTargetPoint].position.x)
         {
             _currentTargetPoint = ++_currentTargetPoint % _patroolPoints.Length;
-            _mover.GetNewTarget(_patroolPoints[_currentTargetPoint].position);
+            _mover.SetNewTarget(_patroolPoints[_currentTargetPoint].position);
         }
     }
 }

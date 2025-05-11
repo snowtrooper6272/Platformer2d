@@ -532,7 +532,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxCountCoin: 25
   _prefab: {fileID: 6327410462107812925, guid: db50dab1f4e414a47b5d3bf702d830f6, type: 3}
-  _intervalOfSpawn: 0.5
+  _spawnDelay: 1
   _spawnAreas:
   - {fileID: 1394181799}
   - {fileID: 1031226655}
@@ -16099,7 +16099,7 @@ Transform:
   m_GameObject: {fileID: 2068581594}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.81, y: -2.46, z: 0}
+  m_LocalPosition: {x: 6.6, y: -0.14, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

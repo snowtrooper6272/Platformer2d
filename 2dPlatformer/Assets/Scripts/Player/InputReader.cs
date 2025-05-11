@@ -16,7 +16,7 @@ public class InputReader : MonoBehaviour
 
     private void Update()
     {
-        AxisDirection = Input.GetAxis(_moveAxis); //  -1 0 1
+        AxisDirection = Input.GetAxis(_moveAxis);
 
         if (Input.GetKeyDown(_jumpButton))
         {

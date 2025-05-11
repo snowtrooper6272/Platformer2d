@@ -31,7 +31,7 @@ public class PlayerAnimator : MonoBehaviour
         }
 
 
-        if (axisDirection < 0.01 || axisDirection > -0.01)
+        if (axisDirection < 0 || axisDirection > 0)
             _animator.SetFloat(_speed, Mathf.Abs(axisDirection) * _mover.MoveSpeed);
         else
             _animator.SetFloat(_speed, 0);

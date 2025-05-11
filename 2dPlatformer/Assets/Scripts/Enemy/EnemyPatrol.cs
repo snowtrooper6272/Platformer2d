@@ -10,7 +10,7 @@ public class EnemyPatrol : MonoBehaviour
     private void OnEnable()
     {
         _mover.TargetAchieved += UpdateMoveTarget;
-        _mover.GetNewTarget(_patroolPoints[_currentTargetPoint].position);
+        _mover.SetNewTarget(_patroolPoints[_currentTargetPoint].position);
     }
 
     private void OnDisable()
@@ -21,6 +21,6 @@ public class EnemyPatrol : MonoBehaviour
     private void UpdateMoveTarget() 
     {
         _currentTargetPoint = ++_currentTargetPoint % _patroolPoints.Length;
-        _mover.GetNewTarget(_patroolPoints[_currentTargetPoint].position);
+        _mover.SetNewTarget(_patroolPoints[_currentTargetPoint].position);
     }
 }

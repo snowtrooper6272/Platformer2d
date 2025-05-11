@@ -15,15 +15,22 @@ public class Mover : MonoBehaviour
     public float MoveSpeed => _moveSpeed;
 
     private int _speed = Animator.StringToHash(nameof(_speed));
+    private bool _isPossibleJump = true;
 
     private void OnEnable()
     {
         _moveReader.PlayerJumped += Jump;
+        _groundChecker.Grounded += SetGrounded;
     }
 
     private void OnDisable()
     {
         _moveReader.PlayerJumped -= Jump;
+    }
+
+    private void SetGrounded() 
+    {
+        _isPossibleJump = true;
     }
 
     private void FixedUpdate()
@@ -36,10 +43,11 @@ public class Mover : MonoBehaviour
 
     private void Jump() 
     {
-        if (_groundChecker.IsPossibleJump) 
+        if (_isPossibleJump)
         {
             _rigidbody.AddForce(Vector2.up * _jumpForce);
             _animator.PlayJump();
+            _isPossibleJump = false;
         }
     }
 }

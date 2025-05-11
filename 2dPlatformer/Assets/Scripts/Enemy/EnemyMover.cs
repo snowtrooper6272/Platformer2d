@@ -5,9 +5,9 @@ public class EnemyMover : MonoBehaviour
 {
     [SerializeField] private float _speed;
 
-    public event Action TargetAchieved;
-
     private Vector3 _moveTarget;
+
+    public event Action TargetAchieved;
 
     private void Update()
     {
@@ -17,7 +17,7 @@ public class EnemyMover : MonoBehaviour
             TargetAchieved.Invoke();
     }
 
-    public void GetNewTarget(Vector3 target) 
+    public void SetNewTarget(Vector3 target) 
     {
         _moveTarget = target;
     }
