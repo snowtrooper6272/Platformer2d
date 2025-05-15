@@ -10,9 +10,9 @@ public class InputReader : MonoBehaviour
 
     public float AxisDirection { get; private set; }
 
-    public event Action<float> PlayerMoved;
-    public event Action PlayerJumped;
-    public event Action<float> PlayerInactived;
+    public event Action<float> Moved;
+    public event Action Jumped;
+    public event Action<float> Inactived;
 
     private void Update()
     {
@@ -20,7 +20,7 @@ public class InputReader : MonoBehaviour
 
         if (Input.GetKeyDown(_jumpButton))
         {
-            PlayerJumped.Invoke();
+            Jumped.Invoke();
         }
     }
 }

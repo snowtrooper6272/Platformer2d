@@ -13,19 +13,18 @@ public class Mover : MonoBehaviour
     [SerializeField] private GroundChecker _groundChecker;
 
     public float MoveSpeed => _moveSpeed;
-
-    private int _speed = Animator.StringToHash(nameof(_speed));
     private bool _isPossibleJump = true;
 
     private void OnEnable()
     {
-        _moveReader.PlayerJumped += Jump;
+        _moveReader.Jumped += Jump;
         _groundChecker.Grounded += SetGrounded;
     }
 
     private void OnDisable()
     {
-        _moveReader.PlayerJumped -= Jump;
+        _moveReader.Jumped -= Jump;
+        _groundChecker.Grounded -= SetGrounded;
     }
 
     private void SetGrounded() 
@@ -33,12 +32,12 @@ public class Mover : MonoBehaviour
         _isPossibleJump = true;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         transform.Translate(Math.Abs(_moveReader.AxisDirection) * Time.deltaTime * _moveSpeed, 0, 0);
         _cameraMover.Move(transform.position.x);
 
-        _animator.PlayRun(_moveReader.AxisDirection);
+        _animator.PlayRun(_moveReader.AxisDirection, _moveSpeed);
     }
 
     private void Jump() 
