@@ -4,15 +4,15 @@ using UnityEngine;
 [RequireComponent(typeof(GroundChecker), typeof(PlayerAnimator))]
 public class Mover : MonoBehaviour
 {
+    public float MoveSpeed => _moveSpeed;
+
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _jumpForce;
     [SerializeField] private Rigidbody2D _rigidbody;
     [SerializeField] private InputReader _moveReader;
     [SerializeField] private PlayerAnimator _animator;
-    [SerializeField] private CameraMover _cameraMover;
+    [SerializeField] private HorizontalMover _cameraMover;
     [SerializeField] private GroundChecker _groundChecker;
-
-    public float MoveSpeed => _moveSpeed;
     private bool _isPossibleJump = true;
 
     private void OnEnable()
@@ -30,6 +30,7 @@ public class Mover : MonoBehaviour
     private void SetGrounded() 
     {
         _isPossibleJump = true;
+        _animator.Aterrissagem();
     }
 
     private void Update()

@@ -4,22 +4,11 @@ using UnityEngine;
 public class PlayerAnimator : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
-    [SerializeField] private GroundChecker _groundChecker;
 
-    [SerializeField] public event Action<float> Flipped;
+    public event Action<float> Flipped;
 
     private readonly int _speed = Animator.StringToHash(nameof(_speed));
     private readonly int _isJump = Animator.StringToHash(nameof(_isJump));
-
-    private void OnEnable()
-    {
-        _groundChecker.Grounded += Aterrissagem;
-    }
-
-    private void OnDisable()
-    {
-        _groundChecker.Grounded -= Aterrissagem;
-    }
 
     public void PlayRun(float axisDirection, float speed) 
     {

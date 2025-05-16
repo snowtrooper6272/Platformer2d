@@ -31,13 +31,14 @@ public class SpawnerCoins : MonoBehaviour
     private IEnumerator CoinSpawn() 
     {
         bool isNeedGenerate = true;
+        WaitForSeconds delay = new WaitForSeconds(_spawnDelay);
 
         while (isNeedGenerate) 
         {
             if(_coinsPool.Count > 0)
                 RemoveCoinOfPool(_coinsPool[Random.Range(0, _coinsPool.Count)], _spawnAreas[Random.Range(0, _spawnAreas.Length)].transform);
 
-            yield return new WaitForSeconds(_spawnDelay);
+            yield return delay;
         }
     }
 
