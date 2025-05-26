@@ -6,21 +6,10 @@ using UnityEngine;
 public class InputReader : MonoBehaviour
 {
     private string _moveAxis = "Horizontal";
-    private KeyCode _jumpButton = KeyCode.Space;
-
     public float AxisDirection { get; private set; }
-
-    public event Action<float> Moved;
-    public event Action Jumped;
-    public event Action<float> Inactived;
 
     private void Update()
     {
         AxisDirection = Input.GetAxis(_moveAxis);
-
-        if (Input.GetKeyDown(_jumpButton))
-        {
-            Jumped.Invoke();
-        }
     }
 }

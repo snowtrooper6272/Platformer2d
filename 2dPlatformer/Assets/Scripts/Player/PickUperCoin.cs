@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PickUpCoin : MonoBehaviour
+public class PickUperCoin : MonoBehaviour
 {
-    [SerializeField] private int _money;
+    [SerializeField] private Wallet _wallet;
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.transform.TryGetComponent(out Coin coin))
         {
             coin.PickUp();
-            _money += coin.Price;
+            _wallet.GetMoney(coin.Price);
         }
     }
 }

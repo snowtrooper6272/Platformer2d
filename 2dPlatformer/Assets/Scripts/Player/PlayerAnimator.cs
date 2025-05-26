@@ -4,8 +4,7 @@ using UnityEngine;
 public class PlayerAnimator : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
-
-    public event Action<float> Flipped;
+    [SerializeField] private Flipper _flipper;
 
     private readonly int _speed = Animator.StringToHash(nameof(_speed));
     private readonly int _isJump = Animator.StringToHash(nameof(_isJump));
@@ -15,11 +14,10 @@ public class PlayerAnimator : MonoBehaviour
         if (axisDirection != 0)
         {
             if (axisDirection > 0)
-                Flipped.Invoke(1);
+                _flipper.Flip(1);
             else
-                Flipped.Invoke(-1);
+                _flipper.Flip(-1);
         }
-
 
         if (axisDirection < 0 || axisDirection > 0)
             _animator.SetFloat(_speed, Mathf.Abs(axisDirection) * speed);

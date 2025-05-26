@@ -4,8 +4,6 @@ using UnityEngine;
 [RequireComponent(typeof(GroundChecker), typeof(PlayerAnimator))]
 public class Mover : MonoBehaviour
 {
-    public float MoveSpeed => _moveSpeed;
-
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _jumpForce;
     [SerializeField] private Rigidbody2D _rigidbody;
@@ -13,18 +11,39 @@ public class Mover : MonoBehaviour
     [SerializeField] private PlayerAnimator _animator;
     [SerializeField] private HorizontalMover _cameraMover;
     [SerializeField] private GroundChecker _groundChecker;
+    
+    public float MoveSpeed => _moveSpeed;
+
     private bool _isPossibleJump = true;
+    private KeyCode _jumpButton = KeyCode.Space;
+    private bool _isJumping = false;
 
     private void OnEnable()
     {
-        _moveReader.Jumped += Jump;
         _groundChecker.Grounded += SetGrounded;
     }
 
     private void OnDisable()
     {
-        _moveReader.Jumped -= Jump;
         _groundChecker.Grounded -= SetGrounded;
+    }
+
+    private void Update()
+    {
+        _animator.PlayRun(_moveReader.AxisDirection, _moveSpeed);
+
+        if (Input.GetKeyDown(_jumpButton) && _isPossibleJump == true) 
+        {
+            _isJumping = true;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        _rigidbody.velocity = new Vector2(_moveReader.AxisDirection * _moveSpeed, _rigidbody.velocity.y);
+
+        if (_isJumping)
+            Jump();
     }
 
     private void SetGrounded() 
@@ -33,21 +52,11 @@ public class Mover : MonoBehaviour
         _animator.Aterrissagem();
     }
 
-    private void Update()
+    private void Jump()
     {
-        transform.Translate(Math.Abs(_moveReader.AxisDirection) * Time.deltaTime * _moveSpeed, 0, 0);
-        _cameraMover.Move(transform.position.x);
-
-        _animator.PlayRun(_moveReader.AxisDirection, _moveSpeed);
-    }
-
-    private void Jump() 
-    {
-        if (_isPossibleJump)
-        {
-            _rigidbody.AddForce(Vector2.up * _jumpForce);
-            _animator.PlayJump();
-            _isPossibleJump = false;
-        }
+        _rigidbody.AddForce(Vector2.up * _jumpForce);
+        _animator.PlayJump();
+        _isPossibleJump = false;
+        _isJumping = false;
     }
 }

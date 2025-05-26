@@ -10,6 +10,8 @@ public class SpawnerCoins : MonoBehaviour
     [SerializeField] private Transform[] _spawnAreas;    
 
     private List<Coin> _coinsPool = new List<Coin>();
+    private List<Coin> _coinsFreedomPool = new List<Coin>();
+    private Coroutine _spawning;
 
     private void OnEnable()
     {
@@ -20,15 +22,15 @@ public class SpawnerCoins : MonoBehaviour
             _coinsPool.Add(coin);
         }
 
-        StartCoroutine(CoinSpawn());
+        _spawning = StartCoroutine(Spawning());
     }
 
     private void OnDisable()
     {
-        StopCoroutine(CoinSpawn());
+        StopCoroutine(_spawning);
     }
 
-    private IEnumerator CoinSpawn() 
+    private IEnumerator Spawning() 
     {
         bool isNeedGenerate = true;
         WaitForSeconds delay = new WaitForSeconds(_spawnDelay);
@@ -36,7 +38,7 @@ public class SpawnerCoins : MonoBehaviour
         while (isNeedGenerate) 
         {
             if(_coinsPool.Count > 0)
-                RemoveCoinOfPool(_coinsPool[Random.Range(0, _coinsPool.Count)], _spawnAreas[Random.Range(0, _spawnAreas.Length)].transform);
+                Appearance(_coinsPool[Random.Range(0, _coinsPool.Count)], _spawnAreas[Random.Range(0, _spawnAreas.Length)].transform);
 
             yield return delay;
         }
@@ -44,16 +46,37 @@ public class SpawnerCoins : MonoBehaviour
 
     public void PlaceCoinInPool(Coin coin) 
     {
-        _coinsPool.Add(coin);
-        coin.Matched -= PlaceCoinInPool;
-        coin.gameObject.SetActive(false);
+        if (IsCoinFromFreedomPool(coin)) 
+        {
+            _coinsFreedomPool.Remove(coin);
+            _coinsPool.Add(coin);
+            coin.Matched -= PlaceCoinInPool;
+            coin.gameObject.SetActive(false);
+        }
     }
 
-    private void RemoveCoinOfPool(Coin removedCoin, Transform spawnArea) 
+    private bool IsCoinFromFreedomPool(Coin placingCoin) 
+    {
+        bool isFind = false;
+
+        foreach (Coin coin in _coinsFreedomPool) 
+        {
+            if (coin == placingCoin) 
+            {
+                isFind = true;
+            }
+        }
+
+        return isFind;
+    }
+
+    private void Appearance(Coin removedCoin, Transform spawnArea) 
     {
         removedCoin.Matched += PlaceCoinInPool;
         removedCoin.transform.position = new Vector3(Random.Range(spawnArea.position.x - spawnArea.localScale.x / 2, spawnArea.position.x + spawnArea.localScale.x / 2), spawnArea.position.y);
         removedCoin.gameObject.SetActive(true);
+
         _coinsPool.Remove(removedCoin);
+        _coinsFreedomPool.Add(removedCoin);
     }
 }
