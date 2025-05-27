@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class InputReader : MonoBehaviour
 {
-    private string _moveAxis = "Horizontal";
     public float AxisDirection { get; private set; }
+
+    private string _moveAxis = "Horizontal";
 
     private void Update()
     {

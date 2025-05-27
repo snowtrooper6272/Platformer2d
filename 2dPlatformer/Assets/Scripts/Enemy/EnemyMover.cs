@@ -13,9 +13,11 @@ public class EnemyMover : MonoBehaviour
 
     private void Update()
     {
-        float distance = Vector3.Distance(transform.position, _moveTarget);
+        Vector3 offset = _moveTarget - transform.position;
 
-        if (distance - _switchDistance <= 0)
+        float sqrLen = Vector3.SqrMagnitude(offset);
+
+        if (sqrLen - _switchDistance <= 0)
         {
             _rigidbody2D.velocity = new Vector3(0,0,0);
             TargetAchieved.Invoke();

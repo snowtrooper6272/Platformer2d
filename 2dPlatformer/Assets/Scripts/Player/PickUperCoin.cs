@@ -11,7 +11,7 @@ public class PickUperCoin : MonoBehaviour
         if (collision.transform.TryGetComponent(out Coin coin))
         {
             coin.PickUp();
-            _wallet.GetMoney(coin.Price);
+            _wallet.Replenishment(coin.Price);
         }
     }
 }
