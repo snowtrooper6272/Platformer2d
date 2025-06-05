@@ -35,10 +35,11 @@ public class Player : MonoBehaviour
     {
         _mover.Move(_inputReader.AxisDirection);
 
-        if (_jumper.IsJumpKeyDown)
+        if (_inputReader.IsJumpKeyDown && _jumper.IsPossibleJump)
         {
             _jumper.Jump();
             _animator.PlayJump();
+            _inputReader.Jump();
         }
     }
 

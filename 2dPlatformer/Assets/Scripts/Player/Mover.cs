@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class Mover : MonoBehaviour
 {
-    public float MoveSpeed => _moveSpeed;
-
     [SerializeField] private float _moveSpeed;
     [SerializeField] private Rigidbody2D _rigidbody;
+
+    public float MoveSpeed => _moveSpeed;
 
     public void Move(float axisDirection) 
     {
