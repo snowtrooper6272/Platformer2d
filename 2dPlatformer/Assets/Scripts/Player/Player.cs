@@ -24,11 +24,7 @@ public class Player : MonoBehaviour
     private void Update()
     {
         _animator.PlayRun(_inputReader.AxisDirection, _mover.MoveSpeed);
-
-        if (_inputReader.AxisDirection > 0)
-            _flipper.Flip(1);
-        else if (_inputReader.AxisDirection < 0)
-            _flipper.Flip(-1);
+        _flipper.Flip(_inputReader.AxisDirection);
     }
 
     private void FixedUpdate()

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HorizontalMover : MonoBehaviour
+public class Follower : MonoBehaviour
 {
     [SerializeField] Transform _hunted;
 

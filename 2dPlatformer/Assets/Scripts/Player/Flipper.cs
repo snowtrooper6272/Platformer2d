@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class Flipper : MonoBehaviour
 {
-    private float _leftLookRotation = 180;
-    private float _rightLookRotation = 0;
+    private Quaternion _leftLook = Quaternion.Euler(0, 180, 0);
+    private Quaternion _rightLook = Quaternion.Euler(0, 0, 0);
 
-    public void Flip(float flipDirection) 
+    public void Flip(float axisDirection) 
     {
-        if (flipDirection == 1)
+        if (axisDirection > 0)
         {
-            transform.rotation = Quaternion.Euler(0, _rightLookRotation, 0);
+            transform.rotation = _rightLook;
         }
-        else 
+        else if(axisDirection < 0)
         {
-            transform.rotation = Quaternion.Euler(0, _leftLookRotation, 0);
+            transform.rotation = _leftLook;
         }
     }
 }

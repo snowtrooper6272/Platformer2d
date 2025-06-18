@@ -9,23 +9,6 @@ public class GroundChecker : MonoBehaviour
 
     public event Action Grounded;
 
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        int countGroundContacts = 0;
-
-        foreach (ContactPoint2D contactPoint in collision.contacts)
-        {
-            if (contactPoint.collider.gameObject.TryGetComponent(out Ground ground))
-            {
-                Grounded.Invoke();
-                break;
-            }
-        }
-
-        if (countGroundContacts > 0)
-            Grounded.Invoke();
-    }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         int countGroundContacts = 0;
@@ -34,7 +17,8 @@ public class GroundChecker : MonoBehaviour
         {
             if (contactPoint.collider.gameObject.TryGetComponent(out Ground ground))
             {
-                Grounded.Invoke();
+                countGroundContacts++;
+                //Grounded.Invoke();
                 break;
             }
         }

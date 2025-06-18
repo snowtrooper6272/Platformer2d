@@ -10,10 +10,20 @@ public class SpawnerCoins : MonoBehaviour
     [SerializeField] private Transform[] _spawnAreas;    
 
     private List<Coin> _coinsPool = new List<Coin>();
-    private List<Coin> _coinsFreedomPool = new List<Coin>();
+    private List<Coin> _activeCoinsPool = new List<Coin>();
     private Coroutine _spawning;
 
     private void OnEnable()
+    {
+        _spawning = StartCoroutine(Spawning());
+
+        foreach (Coin coin in _activeCoinsPool) 
+        {
+            coin.Matched += PlaceCoinInPool;
+        }
+    }
+
+    private void Awake()
     {
         for (int i = 0; i < _maxCountCoin; i++)
         {
@@ -21,13 +31,16 @@ public class SpawnerCoins : MonoBehaviour
             coin.gameObject.SetActive(false);
             _coinsPool.Add(coin);
         }
-
-        _spawning = StartCoroutine(Spawning());
     }
 
     private void OnDisable()
     {
         StopCoroutine(_spawning);
+
+        foreach (Coin coin in _activeCoinsPool)
+        {
+            coin.Matched -= PlaceCoinInPool;
+        }
     }
 
     private IEnumerator Spawning() 
@@ -46,28 +59,13 @@ public class SpawnerCoins : MonoBehaviour
 
     public void PlaceCoinInPool(Coin coin) 
     {
-        if (IsCoinFromFreedomPool(coin)) 
+        if (_activeCoinsPool.Contains(coin)) 
         {
-            _coinsFreedomPool.Remove(coin);
+            _activeCoinsPool.Remove(coin);
             _coinsPool.Add(coin);
             coin.Matched -= PlaceCoinInPool;
             coin.gameObject.SetActive(false);
         }
-    }
-
-    private bool IsCoinFromFreedomPool(Coin placingCoin) 
-    {
-        bool isFind = false;
-
-        foreach (Coin coin in _coinsFreedomPool) 
-        {
-            if (coin == placingCoin) 
-            {
-                isFind = true;
-            }
-        }
-
-        return isFind;
     }
 
     private void Appearance(Coin removedCoin, Transform spawnArea) 
@@ -77,6 +75,6 @@ public class SpawnerCoins : MonoBehaviour
         removedCoin.gameObject.SetActive(true);
 
         _coinsPool.Remove(removedCoin);
-        _coinsFreedomPool.Add(removedCoin);
+        _activeCoinsPool.Add(removedCoin);
     }
 }
