@@ -43,6 +43,17 @@ public class SpawnerCoins : MonoBehaviour
         }
     }
 
+    public void PlaceCoinInPool(Coin coin)
+    {
+        if (_activeCoinsPool.Contains(coin))
+        {
+            _activeCoinsPool.Remove(coin);
+            _coinsPool.Add(coin);
+            coin.Matched -= PlaceCoinInPool;
+            coin.gameObject.SetActive(false);
+        }
+    }
+
     private IEnumerator Spawning() 
     {
         bool isNeedGenerate = true;
@@ -54,17 +65,6 @@ public class SpawnerCoins : MonoBehaviour
                 Appearance(_coinsPool[Random.Range(0, _coinsPool.Count)], _spawnAreas[Random.Range(0, _spawnAreas.Length)].transform);
 
             yield return delay;
-        }
-    }
-
-    public void PlaceCoinInPool(Coin coin) 
-    {
-        if (_activeCoinsPool.Contains(coin)) 
-        {
-            _activeCoinsPool.Remove(coin);
-            _coinsPool.Add(coin);
-            coin.Matched -= PlaceCoinInPool;
-            coin.gameObject.SetActive(false);
         }
     }
 

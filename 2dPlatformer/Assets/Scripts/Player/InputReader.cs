@@ -5,22 +5,19 @@ using UnityEngine;
 
 public class InputReader : MonoBehaviour
 {
-    public float AxisDirection { get; private set; }
-    public bool IsJumpKeyDown { get; private set; }
-
     private string _moveAxis = "Horizontal";
     private KeyCode _jumpKey = KeyCode.Space;
+
+    public float AxisDirection { get; private set; }
+    public bool IsJumpKeyDown { get; private set; }
 
     private void Update()
     {
         if (Input.GetKeyDown(_jumpKey))
             IsJumpKeyDown = true;
+        else if(Input.GetKeyUp(_jumpKey))
+            IsJumpKeyDown = false;
 
         AxisDirection = Input.GetAxis(_moveAxis);
-    }
-
-    public void Jump() 
-    {
-        IsJumpKeyDown = false;
     }
 }

@@ -5,25 +5,26 @@ using UnityEngine;
 
 public class GroundChecker : MonoBehaviour
 {
-    [SerializeField] private PlayerAnimator _animator;
-
     public event Action Grounded;
+
+    private int _countOfCollisionGround;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        int countGroundContacts = 0;
-
-        foreach (ContactPoint2D contactPoint in collision.contacts)
+        if (collision.gameObject.TryGetComponent(out Ground ground))
         {
-            if (contactPoint.collider.gameObject.TryGetComponent(out Ground ground))
-            {
-                countGroundContacts++;
-                //Grounded.Invoke();
-                break;
-            }
-        }
+            _countOfCollisionGround++;
 
-        if (countGroundContacts > 0)
-            Grounded.Invoke();
+            if(_countOfCollisionGround > 0)
+                Grounded.Invoke();
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.TryGetComponent(out Ground ground))
+        {
+            _countOfCollisionGround--;
+        }
     }
 }

@@ -6,7 +6,7 @@ public class Wallet : MonoBehaviour
 {
     [SerializeField] private int _money;
 
-    public void Replenishment(int accruedMoney) 
+    public void Replenish(int accruedMoney) 
     {
         _money += accruedMoney;
     }

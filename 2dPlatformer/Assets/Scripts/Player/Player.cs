@@ -35,7 +35,6 @@ public class Player : MonoBehaviour
         {
             _jumper.Jump();
             _animator.PlayJump();
-            _inputReader.Jump();
         }
     }
 
